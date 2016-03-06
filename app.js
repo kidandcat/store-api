@@ -48,7 +48,7 @@ app.use(cookieParser());
 var connection = mysql.createConnection({
     host: 'galax.be',
     user: 'root',
-    password: 'kilamaris55',
+    password: 'nope',
     database: 'shop'
 });
 
@@ -57,7 +57,16 @@ connection.connect();
 
 
 //ROUTES
+//skeleton - to modify the database schema
+app.get('/skeleton', function (req, res, next) {
+    //TODO - return the database schema
+    /*connection.query('SELECT * FROM users', function (err, rows, fields) {
+        if (err) throw err;
+        res.json(rows);
+    });*/
+});
 
+//users
 app.get('/users', function (req, res, next) {
     connection.query('SELECT * FROM users', function (err, rows, fields) {
         if (err) throw err;
@@ -83,6 +92,8 @@ app.put('/users', function (req, res, next) {
         res.json(response);
     });
 });
+
+//products
 
 
 
