@@ -3,7 +3,6 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mysql = require('mysql');
 var toobusy = require('toobusy-js');
 var http = require('http');
 //var https = require('https');
@@ -45,61 +44,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 
-var connection = mysql.createConnection({
-    host: 'galax.be',
-    user: 'root',
-    password: 'nope',
-    database: 'shop'
-});
-
-connection.connect();
-
-
-
 //ROUTES
 //skeleton - to modify the database schema
-app.get('/skeleton', function (req, res, next) {
-    //TODO - return the database schema
-    /*connection.query('SELECT * FROM users', function (err, rows, fields) {
-        if (err) throw err;
-        res.json(rows);
-    });*/
-});
+var skeleton = require('./api/skeleton');
+app.use('/', skeleton);
 
-//users
-app.get('/users', function (req, res, next) {
-    connection.query('SELECT * FROM users', function (err, rows, fields) {
-        if (err) throw err;
-        res.json(rows);
-    });
-});
 
-app.get('/users/:id', function (req, res, next) {
-    connection.query('SELECT * FROM users WHERE id=' + req.params.id, function (err, rows, fields) {
-        if (err) throw err;
-        res.json(rows[0]);
-    });
-});
-
-app.put('/users', function (req, res, next) {
-    connection.query("INSERT INTO users VALUES (null,'" + req.body.name + "')", function (err, rows, fields) {
-        var response = {};
-        response.status = "ok";
-        if (err) {
-            response.status = "ko";
-            console.log(err);
-        }
-        res.json(response);
-    });
-});
-
-//products
-
+//tables
+var tables = require('./api/tables');
+app.use('/', tables);
 
 
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
+    throw err;
     res.send('Error ');
 });
 
