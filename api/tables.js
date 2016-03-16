@@ -1,15 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var mysql = require('mysql');
+var connection = require('./dbconnection');
 
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'akatsuki',
-    database: 'test'
-});
 
-connection.connect();
 
 
 router.get('/:table', function (req, res, next) {

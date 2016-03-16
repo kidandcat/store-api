@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="/buy/lib"></script>
+</head>
+
+<body>
+    <form action="/buy/test" method="GET">
+        <div id="dropin-container"></div>
+        <input id="submit" type="submit" value="Elegir metodo de compra">
+    </form>
+</body>
+<script>
+    function ajax(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                var token = xhttp.responseText;
+                console.log(token);
+                form(token);
+            }
+        };
+        xhttp.open("GET", "/buy/token", true);
+        xhttp.send();
+    }
+    
+    function form(token){
+        braintree.setup(token, "dropin", {
+            container: "dropin-container",
+            onPaymentMethodReceived: function (obj) {
+                // Do some logic in here.
+                // When you're ready to submit the form:
+                document.querySelector('form #submit').value = 'Comprar';
+                document.querySelector('form #submit').addEventListener('click', function(){
+                    document.querySelector('form').submit();
+                });
+            }
+        });
+    }
+    ajax();
+    
+</script>
+
+</html>

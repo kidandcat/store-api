@@ -1,15 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var mysql = require('mysql');
 
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'akatsuki',
-    database: 'test'
-});
-
-connection.connect();
+var connection = require('./dbconnection');
 
 
 router.get('/skeleton', function (req, res, next) {

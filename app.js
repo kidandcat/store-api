@@ -34,7 +34,7 @@ app.use(function (req, res, next) {
     }
 });
 
-httpServer.listen(80);
+httpServer.listen(81);
 //httpsServer.listen(443);
 
 
@@ -49,6 +49,9 @@ app.use(cookieParser());
 var skeleton = require('./api/skeleton');
 app.use('/', skeleton);
 
+//buy
+var buy = require('./api/buy');
+app.use('/', buy);
 
 //tables
 var tables = require('./api/tables');
