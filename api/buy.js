@@ -12,7 +12,9 @@ var gateway = braintree.connect({
 });
 
 router.get('/buy/token', function(req, res, next) {
-    token(req, res);
+    gateway.clientToken.generate({}, function(err, response) {
+        res.send(response.clientToken);
+    });
 });
 
 router.get('/buy/lib', function(req, res, next) {
@@ -23,11 +25,7 @@ router.get('/buy/demo', function(req, res, next) {
     res.sendFile(path.join(process.cwd(), 'demo.html'));
 });
 
-router.get('/buy/test', function(req, res, next) {
-    console.log(req.body);
-});
-
-router.get('/buy/:table/:id', function(req, res, next) {
+router.post('/buy/:table/:id', function(req, res, next) {
     connection.query('SELECT * FROM ' + req.params.table + ' WHERE id=' + req.params.id, function(err, rows, fields) {
         if (err) {
             res.send("ko");
@@ -40,7 +38,7 @@ router.get('/buy/:table/:id', function(req, res, next) {
                     res.send("price not found");
                 } else {
                     res.send('lets buyy');
-
+                    sale(req, res, rows[0].price, req.body.nonce);
 
                 }
             }
@@ -54,19 +52,12 @@ module.exports = router;
 
 
 
-function token(req, res) {
-    gateway.clientToken.generate({}, function(err, response) {
-        res.send(response.clientToken);
-    });
-}
 
 
-
-
-function sale(req, res) {
+function sale(req, res, price, nonce) {
     gateway.transaction.sale({
-        amount: '5.00',
-        paymentMethodNonce: "nonce-from-the-client",
+        amount: price,
+        paymentMethodNonce: nonce,
         options: {
             submitForSettlement: true
         }

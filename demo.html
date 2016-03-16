@@ -6,9 +6,9 @@
 </head>
 
 <body>
-    <form action="/buy/test" method="GET">
+    <form id="buyForm" action="/buy/test" method="GET">
         <div id="dropin-container"></div>
-        <input id="submit" type="submit" value="Elegir metodo de compra">
+        <input id="submitBtn" type="submit" value="Elegir metodo de compra">
     </form>
 </body>
 <script>
@@ -31,15 +31,23 @@
             onPaymentMethodReceived: function (obj) {
                 // Do some logic in here.
                 // When you're ready to submit the form:
-                document.querySelector('form #submit').value = 'Comprar';
-                document.querySelector('form #submit').addEventListener('click', function(){
-                    document.querySelector('form').submit();
+                document.querySelector('form #submitBtn').value = 'Comprar';
+                document.querySelector('form #submitBtn').addEventListener('click', function(){
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (xhttp.readyState == 4 && xhttp.status == 200) {
+                            var token = xhttp.responseText;
+                        }
+                    };
+                    xhttp.open("POST", "/buy/marianus/1", true);
+                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhttp.send('nonce=' + encodeURIComponent(obj.nonce));
                 });
             }
         });
     }
     ajax();
-    
+
 </script>
 
 </html>

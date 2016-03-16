@@ -34,13 +34,13 @@ app.use(function (req, res, next) {
     }
 });
 
-httpServer.listen(81);
+httpServer.listen(80);
 //httpsServer.listen(443);
 
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 
@@ -57,6 +57,9 @@ app.use('/', buy);
 var tables = require('./api/tables');
 app.use('/', tables);
 
+router.get('/favicon.ico', function(req, res, next) {
+        res.send('fuck u');
+});
 
 
 app.use(function (err, req, res, next) {
