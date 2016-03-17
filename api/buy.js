@@ -25,8 +25,8 @@ router.get('/buy/demo', function(req, res, next) {
     res.sendFile(path.join(process.cwd(), 'demo.html'));
 });
 
-router.post('/buy/:table/:id', function(req, res, next) {
-    connection.query('SELECT * FROM ' + req.params.table + ' WHERE id=' + req.params.id, function(err, rows, fields) {
+router.post('/buy/product/:id', function(req, res, next) {
+    connection.query("SELECT * FROM p_r_o WHERE id='" + req.params.id + "'", function(err, rows, fields) {
         if (err) {
             res.send("ko");
             console.log(err);
@@ -45,6 +45,7 @@ router.post('/buy/:table/:id', function(req, res, next) {
         }
     });
 });
+
 
 module.exports = router;
 

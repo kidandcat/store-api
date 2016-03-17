@@ -8,6 +8,7 @@
 <body>
     <form id="buyForm" action="/buy/test" method="GET">
         <div id="dropin-container"></div>
+        <input type="hidden" value="marianus/1">
         <input id="submitBtn" type="submit" value="Elegir metodo de compra">
     </form>
 </body>
@@ -39,7 +40,7 @@
                             var token = xhttp.responseText;
                         }
                     };
-                    xhttp.open("POST", "/buy/marianus/1", true);
+                    xhttp.open("POST", "/buy/product/manzana", true);
                     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                     xhttp.send('nonce=' + encodeURIComponent(obj.nonce));
                 });

@@ -45,26 +45,19 @@ app.use(cookieParser());
 
 
 //ROUTES
-//skeleton - to modify the database schema
-var skeleton = require('./api/skeleton');
-app.use('/', skeleton);
 
 //buy
 var buy = require('./api/buy');
 app.use('/', buy);
 
-//tables
-var tables = require('./api/tables');
-app.use('/', tables);
 
-router.get('/favicon.ico', function(req, res, next) {
+app.get('/favicon.ico', function(req, res, next) {
         res.send('fuck u');
 });
 
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-    throw err;
     res.send('Error ');
 });
 
