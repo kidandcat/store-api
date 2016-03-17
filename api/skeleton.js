@@ -5,7 +5,6 @@ var connection = require('./dbconnection');
 
 
 router.get('/skeleton', function (req, res, next) {
-    //TODO - return the database schema
     connection.query('SHOW TABLES', function (err, rows, fields) {
         if (err) throw err;
         res.json(rows);
@@ -13,7 +12,6 @@ router.get('/skeleton', function (req, res, next) {
 });
 
 router.get('/skeleton/:table', function (req, res, next) {
-    //TODO - return the database schema
     connection.query('DESCRIBE ' + req.params.table, function (err, rows, fields) {
         if (err) throw err;
         res.json(rows);
@@ -21,7 +19,6 @@ router.get('/skeleton/:table', function (req, res, next) {
 });
 
 router.delete('/skeleton/:table', function (req, res, next) {
-    //TODO - return the database schema
     connection.query('DROP TABLE ' + req.params.table, function (err, rows, fields) {
         if (err) {
             res.json(err);
