@@ -45,7 +45,6 @@ app.use(cookieParser());
 
 
 //ROUTES
-
 //buy
 var buy = require('./api/buy');
 app.use('/', buy);

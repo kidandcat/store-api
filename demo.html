@@ -8,7 +8,7 @@
 <body>
     <form id="buyForm" action="/buy/test" method="GET">
         <div id="dropin-container"></div>
-        <input type="hidden" value="marianus/1">
+        <input id="carrito" type="hidden" value="">
         <input id="submitBtn" type="submit" value="Elegir metodo de compra">
     </form>
 </body>
@@ -33,6 +33,7 @@
                 // Do some logic in here.
                 // When you're ready to submit the form:
                 document.querySelector('form #submitBtn').value = 'Comprar';
+                document.querySelector('#carrito').value = prompt('producto');
                 document.querySelector('form #submitBtn').addEventListener('click', function(){
                     var xhttp = new XMLHttpRequest();
                     xhttp.onreadystatechange = function() {
@@ -40,7 +41,7 @@
                             var token = xhttp.responseText;
                         }
                     };
-                    xhttp.open("POST", "/buy/product/manzana", true);
+                    xhttp.open("POST", "/buy/product/" + document.querySelector('#carrito').value, true);
                     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                     xhttp.send('nonce=' + encodeURIComponent(obj.nonce));
                 });
