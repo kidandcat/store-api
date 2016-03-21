@@ -3,6 +3,11 @@
 
 <head>
     <script src="/buy/lib"></script>
+    <style>
+        form {
+            width: 50%;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,15 +35,16 @@
         braintree.setup(token, "dropin", {
             container: "dropin-container",
             onPaymentMethodReceived: function (obj) {
-                // Do some logic in here.
-                // When you're ready to submit the form:
+                if(document.querySelector('form #submitBtn').value != 'Comprar'){
+                    document.querySelector('#carrito').value = prompt('producto');
+                }
                 document.querySelector('form #submitBtn').value = 'Comprar';
-                document.querySelector('#carrito').value = prompt('producto');
                 document.querySelector('form #submitBtn').addEventListener('click', function(){
                     var xhttp = new XMLHttpRequest();
                     xhttp.onreadystatechange = function() {
                         if (xhttp.readyState == 4 && xhttp.status == 200) {
                             var token = xhttp.responseText;
+                            alert('Succesfull buy! identifier token: ' + token);
                         }
                     };
                     xhttp.open("POST", "/buy/product/" + document.querySelector('#carrito').value, true);

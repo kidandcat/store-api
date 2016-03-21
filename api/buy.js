@@ -37,7 +37,7 @@ router.post('/buy/product/:id', function(req, res, next) {
                 if (!rows[0].price && rows[0].price != 'null') {
                     res.send("price not found");
                 } else {
-                    res.send('lets buyy');
+                    //res.send('lets buyy');
                     sale(req, res, rows[0].price, req.body.nonce);
 
                 }
@@ -66,6 +66,7 @@ function sale(req, res, price, nonce) {
         function(err, result) {
             if (result) {
                 if (result.success) {
+                    res.send(result.transaction.id);
                     console.log("Transaction ID: " + result.transaction.id)
                 } else {
                     console.log(result.message)
